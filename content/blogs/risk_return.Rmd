@@ -55,6 +55,7 @@ We will use the `rvest` package to scrape the Wikipedia page for the constituent
 
 ```{r, tickers_from_wikipedia}
 
+#knitr::include_graphics("/img/pic1.jpg",error=FALSE)
 #brexit_results <- read_csv(here::here("data","brexit_results.csv"))
 
 djia_url <- "https://en.wikipedia.org/wiki/Dow_Jones_Industrial_Average"
