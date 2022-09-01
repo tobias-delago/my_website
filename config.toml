@@ -81,7 +81,7 @@ disqusShortname = ""
   [params.banner]
     # To change the background image on the homepage banner, replace 'banner.jpg' in
     # the 'static/img' folder.
-    title = "Hi, welcome on my Website!"
+    title = "Hi, welcome to my Website!"
     subtitle = "A Portoflio set up for AM01 Applied Statistics"
     buttonText = "Get Started"
 
@@ -92,15 +92,15 @@ disqusShortname = ""
     # Display your showcases here.
     
     [[params.tiles.showcase]]
-      title = "Aliquam"
-      subtitle = "Ipsum Dolor Sit Amet"
-      image = "valgardena.jpg"
-      url = "blogs/aliquam"
+      title = "Risk Return"
+      subtitle = "A R Markdown File"
+      image = "lbs.jpg"
+      url = "blogs/risk_return"
 
     [[params.tiles.showcase]]
-      title = "Tempus"
-      subtitle = "Feugiat Amet Tempus"
-      image = "pic02.jpg"
+      title = "Home Sweet Home"
+      subtitle = "Val Gardena Dolomites"
+      image = "valgardena.jpg"
       url = "blogs/tempus"
 
     [[params.tiles.showcase]]
@@ -138,12 +138,8 @@ disqusShortname = ""
   # Section Type Two
   [params.two]
     enable = true
-    title = "Massa libero"
-    subtitle = """Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. 
-    Mauris aliquet magna magna sed nunc rhoncus pharetra. 
-    Pellentesque condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia pellentesque lorem ipsum dolor. 
-    Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis libero.
-    Mauris aliquet magna magna sed nunc rhoncus amet pharetra et feugiat tempus."""
+    title = "Fun Fact"
+    subtitle = """16% of 25 is equal to 25% of 16, but one is easier to calculate than the other"""
     buttonText = "Get Started"
     url = "blogs"
 
