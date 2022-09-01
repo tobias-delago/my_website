@@ -183,7 +183,7 @@ disqusShortname = ""
   # Footer section
   [params.footer]
     enable = true
-    copyright = "Tobias Delago"
+    copyright = "Tobias Delago | Pictures by Darkest & Carrion"
 
     # Uses font awesome icons
     #[[params.footer.social]]
