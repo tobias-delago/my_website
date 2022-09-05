@@ -110,10 +110,10 @@ disqusShortname = ""
       url = "blogs/pre_course"
 
     [[params.tiles.showcase]]
-      title = "Ipsum"
-      subtitle = "Nisl Sed Aliquam"
-      image = "pic04.jpg"
-      url = "blogs/ipsum"
+      title = "First Group Workshop"
+      subtitle = "Replicating Graphs, Descriptive Statistics"
+      image = "team1.jpg"
+      url = "blogs/homework1"
 
     [[params.tiles.showcase]]
       title = "Consequat"
