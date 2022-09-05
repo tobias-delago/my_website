@@ -106,7 +106,7 @@ disqusShortname = ""
     [[params.tiles.showcase]]
       title = "Pre-Course Assignment"
       subtitle = "Before attending the LBS MAM Class"
-      image = "desperate"
+      image = "desperate.jpg"
       url = "blogs/pre_course"
 
     [[params.tiles.showcase]]
