@@ -104,10 +104,10 @@ disqusShortname = ""
       url = "blogs/tempus"
 
     [[params.tiles.showcase]]
-      title = "Magna"
-      subtitle = "Lorem Etiam Nullam"
-      image = "pic03.jpg"
-      url = "blogs/magna"
+      title = "Pre-Course Assignment"
+      subtitle = "Before attending the LBS MAM Class"
+      image = "desperate"
+      url = "blogs/pre_course"
 
     [[params.tiles.showcase]]
       title = "Ipsum"
