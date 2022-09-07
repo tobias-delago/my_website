@@ -1,5 +1,5 @@
 ---
-title: "Group 11 WOrkshop 1"
+title: "Group 11 Workshop 1"
 description: "1st Homework within Applied Statistics with R class"
 slug: homework1
 image: 
