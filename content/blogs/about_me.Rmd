@@ -18,8 +18,6 @@ library(here)
 library(janitor)
 ```
 
-The goal is to test your software installation, to demonstrate
-competency in Markdown, and in the basics of `ggplot`.
 
 ## Biography
 
