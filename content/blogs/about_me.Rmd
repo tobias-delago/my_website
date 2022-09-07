@@ -1,0 +1,59 @@
+---
+title: "About me page"
+description: "Get to know me better"
+slug: about_me
+image: 
+keywords: ""
+categories: 
+    - ""
+    - ""
+date: 2022-08-31
+draft: false
+---
+
+```{r load-libraries, warning=FALSE, message=FALSE, echo=FALSE}
+library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
+library(gapminder)  # gapminder dataset
+library(here)
+library(janitor)
+```
+
+The goal is to test your software installation, to demonstrate
+competency in Markdown, and in the basics of `ggplot`.
+
+## Biography
+
+**Tobias Delago** was born on May 22nd, 1997 in Bressanone, Italy. After
+attending the *Peter Anich Highschool* in Bolzano, where he ranked first
+in the 2016 class, he moved to Australia for a one-year work&travel
+experience.\
+In 2021 he graduated with a BEng in Industrial Engineering from the
+*University of Munich* and a BSc in Logistics Management from *Tongji
+University Shanghai*, ranking first with a 4.0 GPA.\
+\
+He speaks five languages:
+
+-   Italian
+-   German
+-   Ladin
+-   English
+-   French
+
+### Professional Experience
+
+During high school, Tobias gained experience from several internships in
+hospitality and construction. Later in his career, he secured
+internships at *Porsche AG* and *Amazon.com, Inc.*, and worked as a
+teaching assistant in electrical engineering. Tobias served in the
+*Italian Air Force* for one year - where he also certified as
+Parachutists - before joining the *LBS* Master Program.\
+\
+[Tobias Delago CV](https://www.dropbox.com/s/h93mpdwyknnrwzj/Tobias%20CV%20DRAFT.pdf?raw=1)
+
+### Interests
+
+> I love spending time with my friends and family, playing the drums and doing all kinds of (extreme) sports!
+
+![Ironman](https://www.dropbox.com/s/6h5u85o3nhvwy6a/Ironman.jpg?raw=1)
+
+

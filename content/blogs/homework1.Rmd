@@ -1,0 +1,750 @@
+---
+title: "Group 11 WOrkshop 1"
+description: "1st Homework within Applied Statistics with R class"
+slug: homework_1
+image: 
+keywords: ""
+categories: 
+    - ""
+    - ""
+date: 2022-08-31
+draft: false
+---
+
+```{r, setup, echo=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE, 
+  warning = FALSE, 
+  tidy=FALSE,     # display code as typed
+  size="small")   # slightly smaller font for code
+options(digits = 3, scipen = 999)
+
+# default figure size
+knitr::opts_chunk$set(
+  fig.width=9, 
+  fig.height=5,  #6.75 was original
+  fig.align = "center"
+)
+```
+
+```{r load-libraries, warning=FALSE, message=FALSE, echo=FALSE}
+library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
+library(mosaic)
+library(ggthemes)
+library(lubridate)
+library(here)
+library(skimr)
+library(janitor)
+library(vroom)
+library(tidyquant)
+library(knitr)
+library(ggrepel)
+library(spotifyr)
+library(tidytext)
+```
+
+# Rents in San Francisco 2000-2018
+
+```{r}
+# download directly off tidytuesdaygithub repo
+
+rent <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-07-05/rent.csv')
+
+```
+
+## What are the variable types? Do they all correspond to what they really are? Which variables have most missing values?
+
+```{r skim_data}
+
+skim(rent)
+glimpse(rent)
+
+```
+
+**Answer:**
+
+-   Variable types: chr & dbl\
+-   Do they correspond: Date could be formatted as \< date \>\
+-   Most missing variable: descr (197542)\
+
+## Make a plot that shows the top 20 cities in terms of % of classifieds between 2000-2018. You need to calculate the number of listings by city, and then convert that number to a %.
+
+**The final graph should look like this:**\
+
+![](images/top_cities.png)
+
+```{r top_cities}
+
+top20 <- rent %>% 
+  count(city, sort=TRUE) %>% 
+  mutate(proportion = n/sum(n)) %>% 
+  slice_max(order_by = proportion, n=20) %>% 
+  mutate(city = fct_reorder(city, proportion))
+  
+ggplot(data = top20, mapping = aes(x=proportion, y=city)) +
+  geom_col() +
+  labs(
+    title = "San Francisco accounts for more than a quarter of all rental classifieds",
+    subtitle = "% of Craigslist listings, 2000-2018",
+    x = NULL,
+    y = NULL,
+    caption="Source: Pennigton, Kate (2018). Bay Area Craiglist Rental Housing Posts, 2000-2018"
+  ) +
+  scale_x_continuous(labels = scales::percent) +
+  theme_light() +
+  theme(panel.border = element_blank())+
+  theme(plot.title = element_text(hjust = -0.35))+
+  theme(plot.subtitle = element_text(hjust = -0.15))
+
+```
+
+## Make a plot that shows the evolution of median prices in San Francisco for 0, 1, 2, and 3 bedrooms listings.
+
+**The final graph should look like this**\
+
+![](images/sf_rentals.png)
+
+```{r sf_median_prices}
+
+median_per_bed <- rent %>% 
+  filter(beds <= 3, city == "san francisco") %>% 
+  group_by(beds, year) %>% 
+  summarize(median_price = median(price))
+
+ggplot(median_per_bed, aes(x=year, y=median_price, color = factor(beds))) +
+  geom_line() +
+  facet_wrap(~beds, nrow = 1) +
+  labs(
+    title = "San Francisco rents have steadily been increasing",
+    subtitle = "0 to 3-bed listings, 2000-2018",
+    x=NULL,
+    y=NULL,
+    caption = "Source: Pennigton, Kate (2018). Bay Area Craiglist Rental Housing Posts, 2000-2018"
+  ) +
+  xlim(2003,2018) +
+  theme_light() +
+  theme(legend.position="none") +
+  theme(plot.title = element_text(hjust = 0))+
+  theme(plot.subtitle = element_text(hjust = 0)) +
+  theme(strip.text.x = element_text(colour = "black")) +
+  theme(panel.border = element_rect(color = "black", fill = NA, size = 0.5)) +
+  theme(strip.background = element_rect(color = "black", size = 0.5))
+  
+```
+
+## Finally, make a plot that shows median rental prices for the top 12 cities in the Bay area.
+
+**Your final graph should look like this:**\
+
+![](images/one_bed_bay_area.png)
+
+```{r spirit_plot}
+
+cities_to_include <- rent %>% 
+  group_by(city) %>% 
+  summarize(number_ads = n()) %>%
+  slice_max(order_by = number_ads, n=12)
+
+cities_to_include <- cities_to_include$city
+
+median_per_bed <- rent %>% 
+  filter(beds == 1, city %in% cities_to_include) %>% 
+  group_by(city, year) %>% 
+  summarize(median_price = median(price)) 
+
+ggplot(median_per_bed, aes(x=year, y=median_price, color = factor(city))) +
+  geom_line() +
+  facet_wrap(~city, nrow = 3) +
+  labs(
+    title = "Rental prices for 1-bedroom flats in the Bay Area",
+    x=NULL,
+    y=NULL,
+    caption="Source: Pennigton, Kate (2018). Bay Area Craiglist Rental Housing Posts, 2000-2018"
+  ) +
+  theme_light() +
+  theme(legend.position="none") +
+  theme(plot.title = element_text(hjust = 0)) +
+  theme(strip.text.x = element_text(colour = "black")) +
+  theme(panel.border = element_rect(color = "black", fill = NA, size = 0.5)) +
+  theme(strip.background = element_rect(color = "black", size = 0.5))
+
+```
+
+## What can you infer from these plots? Don't just explain what's in the graph, but speculate or tell a short story (1-2 paragraphs max).
+
+Looking at the graphs from the last exercise we can see that rental prices have increased since the year 2000. While one major cause could be inflation, it is also true that large tech companies have increased the attractiveness of the Bay Area making living there more expensive.\
+The figures also reveal that there has been a decline in the growth rate (or even negative growth) in the median rent after 2015. It could be due to the fact that more and more people are leaving California as the boom seems to lose momentum. A CNBC [video](https://www.youtube.com/watch?v=Ez90rXhMWjE) outlines the reasons for this exodus of people.\
+
+
+# Analysis of movies- IMDB dataset
+
+```{r load_movies}
+# warning=FALSE, message=FALSE, eval=FALSE
+
+movies <- read_csv(here::here("data", "movies.csv"))
+
+```
+
+## Are there any missing values (NAs)? Are all entries distinct or are there duplicate entries?
+
+```{r}
+# Counts the NA for each row and outputs only rows with at least one NA, all columns outputted
+movies[rowSums(is.na(movies))!=0,]
+#Find duplicate entries by looking at title
+#movies[duplicated(movies$title) | duplicated(movies$title, fromLast=TRUE),]
+
+nam<-movies$title
+numb<- 1:2961
+dt1<-data.frame(name=nam,number=numb)
+duplicated_name=dt1 %>% 
+  group_by(name) %>% 
+  summarise(freq=n()) %>% 
+  filter(freq>1) %>% 
+  select(name)
+duplicated_name
+
+# Find if completely the same:
+any(duplicated(movies))
+
+```
+
+**Answer**:
+
+There are no missing values but various double/triple entries (107 rows affected). To go more detail which movies are affected, please see the table above to find the name list. However, none of these entries is exactly the same on all variables.
+
+## Produce a table with the count of movies by genre, ranked in descending order
+
+```{r}
+kable(movies %>% 
+  group_by(genre) %>% 
+  summarise(count_per_genre = n()) %>% 
+  arrange(desc(count_per_genre)), caption="Ranking Specified By Movies Genre")
+
+#movies %>% 
+#count(genre) %>% 
+#arrange(desc(n))
+
+```
+
+## Produce a table with the average gross earning and budget (`gross` and `budget`) by genre. Calculate a variable `return_on_budget` which shows how many \$ did a movie make at the box office for each \$ of its budget. Ranked genres by this `return_on_budget` in descending order
+
+```{r}
+kable(movies %>% 
+  group_by(genre) %>% 
+  summarize(mean_gross_earning= mean(gross), mean_budget = mean(budget)) %>% 
+  mutate(return_on_budget = mean_gross_earning/mean_budget) %>% 
+  arrange(desc(return_on_budget)), caption = "Profit Ability Specified By Movies Genre [$]")
+
+```
+
+## Produce a table that shows the top 15 directors who have created the highest gross revenue in the box office. Don't just show the total gross amount, but also the mean, median, and standard deviation per director.
+
+```{r}
+kable(movies %>% 
+  group_by(director) %>% 
+  summarize(total_gross = sum(gross), mean_gross = mean(gross), median_gross = median(gross), sd_gross = sd(gross)) %>% 
+  arrange(desc(total_gross)) %>% 
+  slice_max(order_by = total_gross, n=15), caption = "Most Profitable Directors Ranking [$]")
+  
+```
+
+## Finally, ratings. Produce a table that describes how ratings are distributed by genre. We don't want just the mean, but also, min, max, median, SD and some kind of a histogram or density graph that visually shows how ratings are distributed.
+
+```{r}
+kable(movies %>% 
+  group_by(genre) %>% 
+  summarize(mean_rating = mean(rating), min_rating = min(rating), max_rating=max(rating), median_rating=median(rating),sd_rating = sd(rating), number_ratings=n()) %>% 
+  arrange(desc(mean_rating)), caption = "Rating Specified By Movies Genre", digits = 1)
+  
+
+```
+
+```{r}
+movies_filtered <- movies %>% 
+  filter(genre != "Thriller")
+
+ggplot(movies_filtered, aes(x = rating)) +
+  geom_density() +
+  facet_wrap(~genre, nrow = 4) +
+  labs(
+    title = "Ratings Distribution By Genre",
+    subtitle = "Only thriller rating = 4.8", y="density",
+    caption = "Source: Kaggle IMDB 5000 movie dataset"
+  ) +
+  theme_light() +
+  theme(strip.text = element_text(colour = "black")) +
+  theme(panel.border = element_rect(color = "black", fill = NA, size = 0.5)) +
+  theme(strip.background = element_rect(color = "black", size = 0.5))
+
+ggplot(movies, aes(x = rating)) +
+  geom_histogram(color="white", fill = "#CB454A") +
+  labs(
+    title = "Ratings Distribution total",
+    y="quantity",
+    caption = "Source: Kaggle IMDB 5000 movie dataset"
+  ) +
+  theme_light()
+
+```
+
+
+## Examine the relationship between `gross` and `cast_facebook_likes`. Produce a scatterplot and write one sentence discussing whether the number of facebook likes that the cast has received is likely to be a good predictor of how much money a movie will make at the box office. What variable are you going to map to the Y- and X- axes?
+
+```{r, gross_on_fblikes}
+ggplot(movies, aes(x = cast_facebook_likes, y = gross)) +
+  geom_point() +
+  xlim(0,100000) +
+  geom_smooth(method = "lm", se = FALSE, color = "#CB454A") +
+  labs(
+    title="Correlation Between Cast Facebook Likes And Movie Revenue", y= "Gross profit in $", x="Facebook Like Received",
+    caption = "Source: Kaggle IMDB 5000 movie dataset"
+  )+
+  theme_light()
+
+correlation_likes <- cor(movies$cast_facebook_likes,movies$gross)
+correlation_likes
+```
+
+**Answer:**
+
+Although there is a minor tendency, the available data does not lead to the conclusion that cast facebook likes are a clear predictor for how much money the movie will make (correlation < 0.3)
+
+## Examine the relationship between `gross` and `budget`. Produce a scatterplot and write one sentence discussing whether budget is likely to be a good predictor of how much money a movie will make at the box office.
+
+```{r, gross_on_budget}
+ggplot(movies, aes(x = budget, y = gross)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "#CB454A")+
+  labs(
+    title="Correlation Between Budget And Movie Revenue", y= "Gross profit in $", x="Buget Used in $",
+    caption = "Source: Kaggle IMDB 5000 movie dataset")+
+  theme_light()
+
+correlation_budget <- cor(movies$budget,movies$gross)
+correlation_budget
+```
+
+**Answer:**
+
+Although there are some outliers, budget seems to be a fairly good predictor of how much money the movie will make (correlation above 0.5)\
+
+## Examine the relationship between `gross` and `rating`. Produce a scatterplot, faceted by `genre` and discuss whether IMDB ratings are likely to be a good predictor of how much money a movie will make at the box office. Is there anything strange in this dataset?
+
+```{r, gross_on_rating}
+ggplot(movies_filtered, aes(x = rating, y = gross)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "#CB454A")+
+  labs(
+    title="Correlation Between Rating And Movie Revenue Specified By Genre", y= "Gross profit in $", x="Rating",
+    caption = "Source: Kaggle IMDB 5000 movie dataset"
+  ) +
+  facet_wrap(~genre, scales="free")+
+#  theme(axis.text.y=element_blank())
+  theme_light()
+
+correlation_rating <- cor(movies$rating,movies$gross)
+correlation_rating
+```
+
+**Answer:**
+
+There is no overall tendency that the higher the ratings, the higher the gross revenue (correlation < 0.3) - some genres e.g. documentary or Sci-Fi even have a negative relationship.\
+
+# Returns of financial stocks
+
+```{r load_nyse_data, message=FALSE, warning=FALSE}
+nyse <- read_csv(here::here("data","nyse.csv"))
+```
+
+## Based on this dataset, create a table and a bar plot that shows the number of companies per sector, in descending order
+
+```{r companies_per_sector}
+
+nyse_sectors <- nyse %>% 
+  count(sector, sort=TRUE) %>% 
+  mutate(sector = fct_reorder(sector, n))
+
+kable(nyse_sectors, caption = "Number of Companies per Sector")
+
+ggplot(nyse_sectors, aes(x = n, y = sector)) +
+  geom_col(fill = "#CB454A") + 
+  labs(
+    title ="Number of Companies per Sector", 
+    x="number of companies",
+    y="sectors",
+    caption = "Kostis Christodoulou (2022) Finance Data"
+     )
+```
+
+
+```{r get_price_data, message=FALSE, warning=FALSE, cache=TRUE}
+# Notice the cache=TRUE argument inthe chunk options. Because getting data is time consuming, 
+# cache=TRUE means that once it downloads data, the chunk will not run again next time you knit your Rmd
+
+myStocks <- c("AAPL", "JPM", "DIS","DPZ","ANF","TSLA","SPY" ) %>%
+  tq_get(get  = "stock.prices",
+         from = "2011-01-01",
+         to   = "2022-08-31") %>%
+  group_by(symbol) 
+
+glimpse(myStocks) # examine the structure of the resulting data frame
+
+```
+
+```{r calculate_returns, message=FALSE, warning=FALSE, cache=TRUE}
+#calculate daily returns
+myStocks_returns_daily <- myStocks %>%
+  tq_transmute(select     = adjusted, 
+               mutate_fun = periodReturn, 
+               period     = "daily", 
+               type       = "log",
+               col_rename = "daily_returns",
+               cols = c(nested.col)) 
+
+#calculate monthly  returns
+myStocks_returns_monthly <- myStocks %>%
+  tq_transmute(select     = adjusted, 
+               mutate_fun = periodReturn, 
+               period     = "monthly", 
+               type       = "arithmetic",
+               col_rename = "monthly_returns",
+               cols = c(nested.col)) 
+
+#calculate yearly returns
+myStocks_returns_annual <- myStocks %>%
+  #group_by(symbol) %>%
+  tq_transmute(select     = adjusted, 
+               mutate_fun = periodReturn, 
+               period     = "yearly", 
+               type       = "arithmetic",
+               col_rename = "yearly_returns",
+               cols = c(nested.col))
+```
+
+## Create a table where you summarise monthly returns for each of the stocks and `SPY`; min, max, median, mean, SD.
+
+```{r summarise_monthly_returns}
+
+kable(myStocks_returns_monthly %>% 
+  group_by(symbol) %>% 
+  summarize(min_return = min(monthly_returns), max_return = max(monthly_returns), median_return = median(monthly_returns), mean_return = mean(monthly_returns), sd_return = sd(monthly_returns)), caption = "Monthly Returns for Stocks")
+
+
+```
+
+## Plot a density plot, using `geom_density()`, for each of the stocks
+
+```{r density_monthly_returns}
+
+ggplot(myStocks_returns_monthly, aes(x=monthly_returns)) +
+  geom_density() +
+  facet_wrap(~symbol) + 
+  labs(
+    title ="Density plot of monthly returns for each stock", 
+    x="monthly returns",
+    y="density",
+    caption = "Kostis Christodoulou (2022) Finance Data"
+     )
+
+```
+
+## What can you infer from this plot? Which stock is the riskiest? The least risky?
+
+**Answer:**
+
+This density plot shows the distribution of the companies' monthly returns. A broad curve with greater spread means that we have a large variance in outcome and thus higher risk. Therefore, it appears that Tesla is the riskiest asset in our portfolio as it has a very large spread of monthly returns and the maximum density of a possible return value is below 3. As a tech company, Tesla faces great business uncertainties (e.g. technologicla breakthroughs). SP500 ETF is the least risky one, as a "spike" is shown in the diagram, its monthly returns are very concentrated, reaching the density above 12. Meanwhile its spread is very narrow. This is because the stock is an index ETF which is made up by the selected index stocks in the market and generally reflects the risk of the entire stock market across multiple industries which diversifies the risk.
+
+
+## Finally, make a plot that shows the expected monthly return (mean) of a stock on the Y axis and the risk (standard deviation) in the X-axis. Please use `ggrepel::geom_text_repel()` to label each stock
+
+```{r risk_return_plot}
+
+mean_sd_return <- myStocks_returns_monthly %>% 
+  group_by(symbol) %>% 
+  summarize(mean_return = mean(monthly_returns), sd_return = sd(monthly_returns))
+
+ggplot(mean_sd_return, aes(x=sd_return, y = mean_return, label=symbol))+
+  geom_point(shape=23, fill="black") +
+  geom_text_repel(fontface = "bold") +
+  labs(
+    title = "return vs risk of stocks", 
+    x="standard deviation of monthly return",
+    y="mean of monthly return",
+    caption = "Kostis Christodoulou (2022) Finance Data"
+  ) 
+
+```
+
+## What can you infer from this plot? Are there any stocks which, while being riskier, do not have a higher expected return?
+
+**Answer:**
+
+Standard deviation can be used to show the volatility of the stocks, and therefore the risks beared by the investors. Most companies' stocks follow the rule of "risk vs return", which means that those with higher risks should generate higher returns to compensate. For examples, S&P 500 ETF generates less risk for less return whearas Tesla generates extremely high return for high risk. Other stocks similarly follow this rule. However, Abercrombie & Fitch is risky but still provides low returns. This poor performance aligns with the bad news on the company over the recent years, including the declining sales from 2020 to 2022, scandals of discriminatory hiring practices, store closure etc.
+
+# On your own: Spotify
+
+> Still waiting to get my Data request approved by Spotify to set up own API
+
+
+```{r, download_spotify_data}
+
+spotify_songs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-01-21/spotify_songs.csv')
+
+```
+
+
+## What is the distribution of songs' popularity (`track_popularity`). Does it look like a Normal distribution?
+
+```{r}
+ggplot(spotify_songs, aes(x = track_popularity)) +
+  geom_histogram(bins= 50, color = "white", fill = "#CB454A")+
+  labs(title = "Distribution of track popularity", x = NULL,
+    y = NULL,
+    caption = "Source: Jthomasmock (2020). Spotify Songs"
+  ) +
+   theme_light()
+```
+
+**Answer:**
+
+The distribution of songs' popularity almost looks like a normal distribution, but we can observe some significant outliers on the extreme left and around 50.
+
+## How are audio-features distributed? can you roughly guess which of these variables is closer to Normal just by looking at summary statistics?
+
+```{r}
+spotify_songs_filtered <- spotify_songs %>% 
+  select(c("danceability", "energy", "key", "loudness", "mode", "speechiness", "acousticness",
+           "instrumentalness", "liveness", "valence", "tempo", "duration_ms"))
+
+ggplot(gather(spotify_songs_filtered), aes(value)) + 
+    geom_histogram(bins = 100, fill = "#CB454A") +
+  labs(title = "Distribution for each feature", x = NULL,
+    y = NULL,
+    caption = "Source: Jthomasmock (2020). Spotify Songs"
+  ) +
+   theme_light()+
+    facet_wrap(~key, scales="free")
+
+```
+
+```{r}
+summary(spotify_songs_filtered)
+```
+
+**Answer:**
+
+It can be guessed by summary statistics how the data is distributed (histogram or additional tests such as Shapiro Wilk Test would yield higher precision). In order to be normally distributed, the mean and the median should almost be the same. Then regarding the quartiles, they should be at an equal distance from the median.\
+From the data, we can see that acousticness as well as speechiness aren't normally distributed at all, significantly skewed to the right. On the other hand, duration and danceability are distributed more normally.
+
+## Is there any relationship between `valence` and `track_popularity`? `danceability` and `track_popularity` ?
+
+```{r}
+spotify_songs %>% 
+  ggplot( aes(x = valence, y = track_popularity)) +
+  geom_point(alpha = .05) +
+  geom_smooth(color = "#CB454A", se=F)+
+  labs(title = "Relationship between Valence and Track popularity",
+       x="Valence",
+       y="Track Popularity",
+       caption = "Source: Jthomasmock (2020). Spotify Songs")+
+  theme_light()
+
+correlation_rating_valence <- cor(spotify_songs$valence,spotify_songs$track_popularity)
+correlation_rating_valence
+
+spotify_songs %>% 
+  ggplot( aes(x = danceability, y = track_popularity)) +
+  geom_point(alpha = .05) +
+  geom_smooth(color = "#CB454A", se=F)+
+  labs(title = "Relationship between Danceability and Track popularity",
+       x="Danceability",
+       y="Track Popularity",
+       caption = "Source: Jthomasmock (2020). Spotify Songs")+
+  theme_light()
+
+correlation_rating_danceability <- cor(spotify_songs$danceability,spotify_songs$track_popularity)
+correlation_rating_danceability
+```
+
+**Answer:**
+
+The correlation between valence and track popularity is 0.0332, which is very low, indicating no relationship between these variables. The plot among these variables supports this observation. The plot of variables for danceability and track popularity shows they are not correlated as depicted by the regression line. The correlation among these variables is 0.0647, which supports our observation.
+
+## Do songs written on a major scale have higher `danceability` compared to those in minor scale? What about `track_popularity`?
+
+```{r}
+spotify_songs %>% 
+  ggplot(aes(danceability))+
+  geom_boxplot()+
+  coord_flip()+
+  #geom_histogram(bins=50, color = "white", fill = "#CB454A")+
+  labs(title = "Modal comparison for Daceability (mean as vertical line",
+       x="Danceability",
+       y=NULL,
+       caption = "Source: Jthomasmock (2020). Spotify Songs")+
+  facet_wrap(~mode)+
+  theme_light()+
+  theme(legend.position="none")
+  #geom_vline(aes(xintercept = mean(danceability)),col='black',size=1)
+
+spotify_songs %>% 
+  group_by(mode) %>% 
+  summarize(mean_danceability = mean(danceability), median_danceability = median(danceability))
+
+spotify_songs %>% 
+  ggplot(aes(track_popularity))+
+  geom_boxplot()+
+  coord_flip()+
+  #geom_histogram(bins=50, color = "white", fill = "#CB454A")+
+  labs(title = "Modal comparison for Track Popularity (mean as vertical line)",
+       x="Popularity",
+       y=NULL,
+       caption = "Source: Jthomasmock (2020). Spotify Songs")+
+  facet_wrap(~mode)+
+  theme_light()+
+  theme(legend.position="none")
+  #geom_vline(aes(xintercept = mean(track_popularity)),col='black',size=1)
+
+spotify_songs %>% 
+  group_by(mode) %>% 
+  summarize(mean_track_popularity = mean(track_popularity), median_track_popularity = median(track_popularity))
+```
+
+**Answer:**
+
+While almost the same, minor is slightly more danceable and major is slightly more popular.
+
+## Optional additional description of data set
+
+```{r}
+famous <- spotify_songs %>% 
+  group_by(track_artist) %>% 
+  summarize(mean_popularity = mean(track_popularity), n=n())
+
+kable(famous %>% 
+  filter(n>10) %>% 
+  slice_max(order_by = mean_popularity, n=10), caption = "Artists with highest popularity (>10 songs)")
+
+```
+
+
+# Challenge 1: Replicating a chart
+
+
+## You have to create a graph that calculates the cumulative % change for 0-, 1-1, and 2-bed flats between 2000 and 2018 for the top twelve cities in Bay Area, by number of ads that appeared in Craigslist. Your final graph should look like this
+
+![](images/challenge1.png)
+
+```{r challenge 1}
+
+cities_to_include <- rent %>% 
+  group_by(city) %>% 
+  summarize(number_ads = n()) %>%
+  slice_max(order_by = number_ads, n=12)
+
+cities_to_include <- cities_to_include$city
+
+filtered_rent <- rent %>% 
+  filter(beds <= 2, city %in% cities_to_include) %>% 
+  group_by(year, city, beds) %>% 
+  summarise(median_price =median(price)) %>% 
+  ungroup()
+
+sorted <- filtered_rent %>% 
+  arrange(beds, city, year)
+
+rent_change <- sorted %>% 
+  group_by(beds, city) %>% 
+  mutate(change_per_year = (median_price/(median_price[1L])))
+
+ggplot(rent_change, aes(x=year, y = change_per_year, color = factor(city))) +
+  geom_line() +
+  facet_grid(beds~city, scales = "free") +
+  labs(
+    title = "Cumulative % change in 0, 1, and 2-bed rental in Bay Area",
+    subtitle = "2000-2018",
+    x="",
+    y=""
+  ) +
+  ylim(0,250) +
+  theme_light() +
+  theme(legend.position="none")+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  theme(strip.text.x = element_text(size = 6)) +
+  scale_y_continuous(labels = scales::percent) +
+  theme(strip.text = element_text(colour = "black")) +
+  theme(panel.border = element_rect(color = "black", fill = NA, size = 0.5)) +
+  theme(strip.background = element_rect(color = "black", size = 0.5))
+
+
+```
+
+
+# Challenge 2: 2016 California Contributors
+
+## As discussed in class, I would like you to reproduce the plot that shows the top ten cities in highest amounts raised in political contributions in California during the 2016 US Presidential election.
+
+```{r challenge2, echo=FALSE, out.width="100%"}
+knitr::include_graphics(here::here("images", "challenge2.png"), error = FALSE)
+```
+
+
+```{r, load_CA_data, warnings= FALSE, message=FALSE}
+# Make sure you use vroom() as it is significantly faster than read.csv()
+CA_contributors_2016 <- vroom::vroom(here::here("data","CA_contributors_2016.csv"))
+zip_codes <- vroom::vroom(here::here("data","zip_code_database.csv"))
+
+```
+
+```{r elections, fig.width=9, fig.height=4}
+contributions_filtered <- CA_contributors_2016 %>% 
+  filter(cand_nm == "Clinton, Hillary Rodham" | cand_nm == "Trump, Donald J.") %>% 
+  mutate(zip = as.character(zip))
+
+contributions_filtered <- left_join(contributions_filtered, zip_codes, by="zip")
+
+contributions_filtered %>%
+  group_by(cand_nm, primary_city) %>%
+  summarize(sum_donations = sum(contb_receipt_amt)) %>%
+  slice_max(order_by = sum_donations, n = 10) %>% 
+  ungroup %>%
+  mutate(cand_nm = as.factor(cand_nm), 
+         primary_city = reorder_within(primary_city, sum_donations, cand_nm)) %>% 
+  ggplot(aes(x = sum_donations, y = primary_city, fill = factor(cand_nm))) +
+    geom_col() +
+    facet_wrap(~cand_nm, scales = "free") +
+    labs(
+      title = "Where did candidates rase most money",
+      y = NULL,
+      x = "Amount raised"
+    ) +
+    scale_y_reordered() +
+    theme_light() +
+    scale_fill_manual(values = c("#2E74C0", "#CB454A")) +
+    scale_x_continuous(labels=scales::dollar_format())+
+    theme(legend.position="none") +
+    theme(strip.text.x = element_text(colour = "black")) +
+    theme(panel.border = element_rect(color = "black", fill = NA, size = 0.5)) +
+    theme(strip.background = element_rect(color = "black", size = 0.5))
+
+```
+
+# Deliverables
+
+There is a lot of explanatory text, comments, etc. You do not need these, so delete them and produce a stand-alone document that you could share with someone. Knit the edited and completed R Markdown file as an HTML document (use the "Knit" button at the top of the script editor window) and upload it to Canvas.
+
+# Details
+
+-   Who did you collaborate with: Vani Duggal, Mehak Khanna, Manon Pillot, Nick Chen, Liyang Zhang, Tobias Delago 
+-   Approximately how much time did you spend on this problem set: 30h
+-   What, if anything, gave you the most trouble: Challenge 1, plotting the cumulative % change, figuring out how to filter for the top 12 cities
+
+> As a true test to yourself, do you understand the code you submitted and are you able to explain it to someone else?
+
+# Rubric
+
+Check minus (1/5): Displays minimal effort. Doesn't complete all components. Code is poorly written and not documented. Uses the same type of plot for each graph, or doesn't use plots appropriate for the variables being analyzed.
+
+Check (3/5): Solid effort. Hits all the elements. No clear mistakes. Easy to follow (both the code and the output).
+
+Check plus (5/5): Finished all components of the assignment correctly and addressed both challenges. Code is well-documented (both self-documented and with additional comments as necessary). Used tidyverse, instead of base R. Graphs and tables are properly labelled. Analysis is clear and easy to follow, either because graphs are labeled clearly or you've written additional text to describe how you interpret the output.
