@@ -114,6 +114,18 @@ disqusShortname = ""
       subtitle = "Replicating Graphs, Descriptive Statistics"
       image = "team1.jpg"
       url = "blogs/homework1"
+      
+    [[params.tiles.showcase]]
+      title = "Second Group Workshop"
+      subtitle = "Replicating more complex Graphs, Confidence Intervals"
+      image = "team2.jpg"
+      url = "blogs/homework2"
+      
+    [[params.tiles.showcase]]
+      title = "Third and last Group Workshop"
+      subtitle = "COnfidence Intervals"
+      image = "team3.jpg"
+      url = "blogs/homework3"
 
 
     # You can make more showcases by copy and pasting the code above
