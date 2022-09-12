@@ -26,7 +26,7 @@ disqusShortname = ""
   custom_css = []
   custom_js  = []
   favicon    = "favicon.ico"
-
+  
   # Just a custom image variable, please define it in .md files for content.
   image = ""
 
@@ -151,7 +151,7 @@ disqusShortname = ""
     # - send a dummy email yourself to confirm your account
     # - click the confirm link in the email from www.formspree.io
     # - you're done. Happy mailing!
-    formEmail = "tdelago.mam2023@london.edu"
+    formEmail = "f/xkneoazd"
 
     # Contact Section
     # You can add multiple emails, phone numbers, or addresses
