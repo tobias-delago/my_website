@@ -123,7 +123,7 @@ disqusShortname = ""
       
     [[params.tiles.showcase]]
       title = "Third and last Group Workshop"
-      subtitle = "COnfidence Intervals"
+      subtitle = "Hypothesis Testing"
       image = "team3.jpg"
       url = "blogs/homework3"
 

@@ -489,8 +489,6 @@ countries <-  wb_cachelist$countries %>%
 
 ## First, produce a graph with the countries with the highest and lowest % contribution of renewables in energy production. 
 
-![](images/renewables.png)
- 
 ```{r min-max_renewables, echo=FALSE, out.width="100%", fig.height=4}
 knitr::include_graphics(here::here("images", "renewables.png"), error = FALSE)
 ```
