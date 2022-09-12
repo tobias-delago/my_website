@@ -2,7 +2,7 @@
 title: "Pre-Course Assignment"
 description: "This small portfolio was created as a pre-course, which means before any classes in R at LBS where taken"
 slug: pre_course
-image: 
+image: desperate.jpg
 keywords: ""
 categories: 
     - ""

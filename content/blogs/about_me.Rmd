@@ -2,7 +2,7 @@
 title: "About me page"
 description: "Get to know me better"
 slug: about_me
-image: 
+image: skydiving.jpg
 keywords: ""
 categories: 
     - ""

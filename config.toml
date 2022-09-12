@@ -33,7 +33,7 @@ disqusShortname = ""
   # 404 error customization
   [params.error404]
     heading = "Page couldn't be found"
-    text = "Please visit [this page](/)"
+    text = "Please visit [https://tobias-delagos-portfolio.netlify.app/]"
 
   # Navigation Section
   [params.navigation] 
@@ -48,16 +48,16 @@ disqusShortname = ""
       url = "#"
 
     [[params.navigation.links]]
-      name = "Blogs"
-      url = "blogs"
+      name = "About Me"
+      url = "blogs/about_me"
 
     [[params.navigation.links]]
-      name = "Generic Blog"
-      url = "blogs/ipsum"
+      #name = "Blogs"
+      #url = "blogs/ipsum"
 
-    [[params.navigation.links]]
-      name = "Elements"
-      url = "elements.html"
+    #[[params.navigation.links]]
+      #name = "Elements"
+      #url = "elements.html"
 
     # Add custom links here by uncommenting code below. To remove links just delete
     # the [[params.navigation.links]] map associated with that link. Copy and paste
@@ -68,13 +68,13 @@ disqusShortname = ""
 
     # Button Style 1
     [[params.navigation.button1]]
-      name = "Get Started"
+      name = "Explore all the Blogs"
       url = "blogs"
 
     # Button Style 2
-    [[params.navigation.button2]]
-      name = "Log In"
-      url = "#"
+    #[[params.navigation.button2]]
+      #name = "Log In"
+      #url = "#"
 
 
   # Banner section
@@ -130,7 +130,7 @@ disqusShortname = ""
     enable = true
     title = "Fun Fact"
     subtitle = """16% of 25 is equal to 25% of 16, but one is easier to calculate than the other"""
-    buttonText = "Get Started"
+    buttonText = "Explore all Blogs for more interesting data facts"
     url = "blogs"
 
 
@@ -151,7 +151,7 @@ disqusShortname = ""
     # - send a dummy email yourself to confirm your account
     # - click the confirm link in the email from www.formspree.io
     # - you're done. Happy mailing!
-    # formEmail = "example@domain.com"
+    formEmail = "tdelago.mam2023@london.edu"
 
     # Contact Section
     # You can add multiple emails, phone numbers, or addresses
