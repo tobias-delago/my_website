@@ -605,11 +605,7 @@ The correlation matrix reweals many interesting things in just one visualization
 
 # Challenge 1: Brexit plot
 
-## Reproduce the Graph using the same colors
-
-The final graph should look like this:
-
-![](images/brexit.png)
+## Reproduce the Graph shown in class using the same colors
 
 Import the data:
 ```{r}
@@ -684,11 +680,7 @@ indicator_list <- c("Exports","Imports","Government expenditure","Household expe
 
 ```
 
-## Can you produce this plots?
-
-The first should look like this:
-
-![](images/gdp1.png)
+## Can you produce the plots shown in class?
 
 ```{r gdp1_self, out.width="100%", fig.height=4}
 
@@ -719,9 +711,7 @@ tidy_GDP_data %>%
 
 ```
 
-The second should look like this:
 
-![](images/gdp2.png)
 
 ```{r gdp2_self, out.width="100%", fig.height=3.5}
 

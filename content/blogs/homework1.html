@@ -351,9 +351,6 @@ rent &lt;- readr::read_csv(&#39;https://raw.githubusercontent.com/rfordatascienc
 </div>
 <div id="make-a-plot-that-shows-the-top-20-cities-in-terms-of-of-classifieds-between-2000-2018.-you-need-to-calculate-the-number-of-listings-by-city-and-then-convert-that-number-to-a-." class="section level2">
 <h2>Make a plot that shows the top 20 cities in terms of % of classifieds between 2000-2018. You need to calculate the number of listings by city, and then convert that number to a %.</h2>
-<p><strong>The final graph should look like this:</strong><br />
-</p>
-<p><img src="images/top_cities.png" /></p>
 <pre class="r"><code>top20 &lt;- rent %&gt;% 
   count(city, sort=TRUE) %&gt;% 
   mutate(proportion = n/sum(n)) %&gt;% 
@@ -378,9 +375,6 @@ ggplot(data = top20, mapping = aes(x=proportion, y=city)) +
 </div>
 <div id="make-a-plot-that-shows-the-evolution-of-median-prices-in-san-francisco-for-0-1-2-and-3-bedrooms-listings." class="section level2">
 <h2>Make a plot that shows the evolution of median prices in San Francisco for 0, 1, 2, and 3 bedrooms listings.</h2>
-<p><strong>The final graph should look like this</strong><br />
-</p>
-<p><img src="images/sf_rentals.png" /></p>
 <pre class="r"><code>median_per_bed &lt;- rent %&gt;% 
   filter(beds &lt;= 3, city == &quot;san francisco&quot;) %&gt;% 
   group_by(beds, year) %&gt;% 
@@ -408,9 +402,6 @@ ggplot(median_per_bed, aes(x=year, y=median_price, color = factor(beds))) +
 </div>
 <div id="finally-make-a-plot-that-shows-median-rental-prices-for-the-top-12-cities-in-the-bay-area." class="section level2">
 <h2>Finally, make a plot that shows median rental prices for the top 12 cities in the Bay area.</h2>
-<p><strong>Your final graph should look like this:</strong><br />
-</p>
-<p><img src="images/one_bed_bay_area.png" /></p>
 <pre class="r"><code>cities_to_include &lt;- rent %&gt;% 
   group_by(city) %&gt;% 
   summarize(number_ads = n()) %&gt;%
@@ -1559,9 +1550,8 @@ kable(famous %&gt;%
 </div>
 <div id="challenge-1-replicating-a-chart" class="section level1">
 <h1>Challenge 1: Replicating a chart</h1>
-<div id="you-have-to-create-a-graph-that-calculates-the-cumulative-change-for-0--1-1-and-2-bed-flats-between-2000-and-2018-for-the-top-twelve-cities-in-bay-area-by-number-of-ads-that-appeared-in-craigslist.-your-final-graph-should-look-like-this" class="section level2">
-<h2>You have to create a graph that calculates the cumulative % change for 0-, 1-1, and 2-bed flats between 2000 and 2018 for the top twelve cities in Bay Area, by number of ads that appeared in Craigslist. Your final graph should look like this</h2>
-<p><img src="images/challenge1.png" /></p>
+<div id="you-have-to-create-a-graph-that-calculates-the-cumulative-change-for-0--1-1-and-2-bed-flats-between-2000-and-2018-for-the-top-twelve-cities-in-bay-area-by-number-of-ads-that-appeared-in-craigslist." class="section level2">
+<h2>You have to create a graph that calculates the cumulative % change for 0-, 1-1, and 2-bed flats between 2000 and 2018 for the top twelve cities in Bay Area, by number of ads that appeared in Craigslist.</h2>
 <pre class="r"><code>cities_to_include &lt;- rent %&gt;% 
   group_by(city) %&gt;% 
   summarize(number_ads = n()) %&gt;%
@@ -1607,7 +1597,6 @@ ggplot(rent_change, aes(x=year, y = change_per_year, color = factor(city))) +
 <h1>Challenge 2: 2016 California Contributors</h1>
 <div id="as-discussed-in-class-i-would-like-you-to-reproduce-the-plot-that-shows-the-top-ten-cities-in-highest-amounts-raised-in-political-contributions-in-california-during-the-2016-us-presidential-election." class="section level2">
 <h2>As discussed in class, I would like you to reproduce the plot that shows the top ten cities in highest amounts raised in political contributions in California during the 2016 US Presidential election.</h2>
-<p><img src="../../images/challenge2.png" width="100%" style="display: block; margin: auto;" /></p>
 <pre class="r"><code># Make sure you use vroom() as it is significantly faster than read.csv()
 CA_contributors_2016 &lt;- vroom::vroom(here::here(&quot;data&quot;,&quot;CA_contributors_2016.csv&quot;))
 zip_codes &lt;- vroom::vroom(here::here(&quot;data&quot;,&quot;zip_code_database.csv&quot;))</code></pre>

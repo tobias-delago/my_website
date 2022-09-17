@@ -69,9 +69,6 @@ glimpse(rent)
 
 ## Make a plot that shows the top 20 cities in terms of % of classifieds between 2000-2018. You need to calculate the number of listings by city, and then convert that number to a %.
 
-**The final graph should look like this:**\
-
-![](images/top_cities.png)
 
 ```{r top_cities}
 
@@ -100,9 +97,6 @@ ggplot(data = top20, mapping = aes(x=proportion, y=city)) +
 
 ## Make a plot that shows the evolution of median prices in San Francisco for 0, 1, 2, and 3 bedrooms listings.
 
-**The final graph should look like this**\
-
-![](images/sf_rentals.png)
 
 ```{r sf_median_prices}
 
@@ -133,10 +127,6 @@ ggplot(median_per_bed, aes(x=year, y=median_price, color = factor(beds))) +
 ```
 
 ## Finally, make a plot that shows median rental prices for the top 12 cities in the Bay area.
-
-**Your final graph should look like this:**\
-
-![](images/one_bed_bay_area.png)
 
 ```{r spirit_plot}
 
@@ -631,9 +621,7 @@ kable(famous %>%
 # Challenge 1: Replicating a chart
 
 
-## You have to create a graph that calculates the cumulative % change for 0-, 1-1, and 2-bed flats between 2000 and 2018 for the top twelve cities in Bay Area, by number of ads that appeared in Craigslist. Your final graph should look like this
-
-![](images/challenge1.png)
+## You have to create a graph that calculates the cumulative % change for 0-, 1-1, and 2-bed flats between 2000 and 2018 for the top twelve cities in Bay Area, by number of ads that appeared in Craigslist.
 
 ```{r challenge 1}
 
@@ -683,10 +671,6 @@ ggplot(rent_change, aes(x=year, y = change_per_year, color = factor(city))) +
 # Challenge 2: 2016 California Contributors
 
 ## As discussed in class, I would like you to reproduce the plot that shows the top ten cities in highest amounts raised in political contributions in California during the 2016 US Presidential election.
-
-```{r challenge2, echo=FALSE, out.width="100%"}
-knitr::include_graphics(here::here("images", "challenge2.png"), error = FALSE)
-```
 
 
 ```{r, load_CA_data, warnings= FALSE, message=FALSE}

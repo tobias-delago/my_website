@@ -1025,10 +1025,8 @@ kable(ci_omega_experience,
 </div>
 <div id="challenge-1-brexit-plot" class="section level1">
 <h1>Challenge 1: Brexit plot</h1>
-<div id="reproduce-the-graph-using-the-same-colors" class="section level2">
-<h2>Reproduce the Graph using the same colors</h2>
-<p>The final graph should look like this:</p>
-<p><img src="images/brexit.png" /></p>
+<div id="reproduce-the-graph-shown-in-class-using-the-same-colors" class="section level2">
+<h2>Reproduce the Graph shown in class using the same colors</h2>
 <p>Import the data:</p>
 <pre class="r"><code>brexit_results &lt;- read_csv(&quot;https://raw.githubusercontent.com/kostis-christodoulou/am01/master/data/brexit_results.csv&quot;)</code></pre>
 <pre class="r"><code># Concatenated colors in new variable
@@ -1083,10 +1081,8 @@ tidy_GDP_data  &lt;- UN_GDP_data %&gt;%
 # Let us compare GDP components for these 3 countries
 country_list &lt;- c(&quot;United States&quot;,&quot;India&quot;, &quot;Germany&quot;)
 indicator_list &lt;- c(&quot;Exports&quot;,&quot;Imports&quot;,&quot;Government expenditure&quot;,&quot;Household expenditure&quot;,&quot;Gross capital formation&quot;,&quot;Net Exports&quot;)</code></pre>
-<div id="can-you-produce-this-plots" class="section level2">
-<h2>Can you produce this plots?</h2>
-<p>The first should look like this:</p>
-<p><img src="images/gdp1.png" /></p>
+<div id="can-you-produce-the-plots-shown-in-class" class="section level2">
+<h2>Can you produce the plots shown in class?</h2>
 <pre class="r"><code>#Creating line chart and setting colors due to different order
 
 tidy_GDP_data %&gt;% 
@@ -1112,8 +1108,6 @@ tidy_GDP_data %&gt;%
   theme(panel.grid.minor.x = element_blank())+
   theme(text = element_text(size = 7))</code></pre>
 <p><img src="/blogs/homework3_files/figure-html/gdp1_self-1.png" width="100%" style="display: block; margin: auto;" /></p>
-<p>The second should look like this:</p>
-<p><img src="images/gdp2.png" /></p>
 <pre class="r"><code># Going back to wider to easily calculate columns
 
 tidy_GDP_data %&gt;% 
