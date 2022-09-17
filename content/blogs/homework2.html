@@ -234,8 +234,6 @@ approval_date &lt;- approval_polllist %&gt;%
 </div>
 <div id="create-a-plot-for-net-approval-rating-for-each-week-in-2022" class="section level2">
 <h2>Create a plot for net approval rating for each week in 2022</h2>
-<p>Your plot should look something like this:</p>
-<p><img src="images/biden_approval_margin.png" /></p>
 <pre class="r"><code># Filtering data for year and interested columns
 poll_filtered &lt;- approval_date %&gt;% 
   select(c(&quot;enddate&quot;,&quot;subgroup&quot;,&quot;approve&quot;,&quot;disapprove&quot;)) %&gt;% 

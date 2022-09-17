@@ -313,11 +313,8 @@ null_dist %>%
 
 # IMDB ratings: Differences between directors
 
-## Reproduce the following graph
+## Reproduce the graph shown in class
 
-```{r directors, echo=FALSE, out.width="100%"}
-knitr::include_graphics(here::here("images", "directors.png"), error = FALSE)
-```
 Loading data:
 
 ```{r load-movies-data}

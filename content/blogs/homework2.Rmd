@@ -273,9 +273,6 @@ approval_date <- approval_polllist %>%
 
 ## Create a plot for net approval rating for each week in 2022
 
-Your plot should look something like this:
-
-![](images/biden_approval_margin.png)
 
 ```{r biden, out.width="100%", fig.height=5}
 
