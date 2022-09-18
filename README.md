@@ -1,2 +1,2 @@
 # my_website
-am01
+created in R with Hugo for am01. 
