@@ -17,11 +17,6 @@ draft: false
 competency in Markdown, and in the basics of <code>ggplot</code>.</p>
 <div id="task-2-gapminder-country-comparison" class="section level1">
 <h1>Task 2: <code>gapminder</code> country comparison</h1>
-<p>You have seen the <code>gapminder</code> dataset that has data on life expectancy,
-population, and GDP per capita for 142 countries from 1952 to 2007. To
-get a glimpse of the dataframe, namely to see the variable names,
-variable types, etc., we use the <code>glimpse</code> function. We also want to
-have a look at the first 20 rows of data.</p>
 <pre class="r"><code>glimpse(gapminder)</code></pre>
 <pre><code>## Rows: 1,704
 ## Columns: 6
@@ -55,26 +50,15 @@ have a look at the first 20 rows of data.</p>
 ## 18 Albania     Europe     1977    68.9  2509048     3533.
 ## 19 Albania     Europe     1982    70.4  2780097     3631.
 ## 20 Albania     Europe     1987    72    3075321     3739.</code></pre>
-<p>Your task is to produce two graphs of how life expectancy has changed
-over the years for the <code>country</code> and the <code>continent</code> you come from.</p>
-<p>I have created the <code>country_data</code> and <code>continent_data</code> with the code
-below.</p>
 <pre class="r"><code>country_data &lt;- gapminder %&gt;% 
             filter(country == &quot;Italy&quot;) # just choosing Italy, as this is where I come from
 
 continent_data &lt;- gapminder %&gt;% 
             filter(continent == &quot;Europe&quot;)</code></pre>
-<p>First, create a plot of life expectancy over time for the single country
-you chose. Map <code>year</code> on the x-axis, and <code>lifeExp</code> on the y-axis. You
-should also use <code>geom_point()</code> to see the actual data points and
-<code>geom_smooth(se = FALSE)</code> to plot the underlying trendlines. You need to
-remove the comments <strong>#</strong> from the lines below for your code to run.</p>
 <pre class="r"><code>plot1 &lt;- ggplot(data = country_data, mapping = aes(x = year, y = lifeExp))+
   geom_point() +
   geom_smooth(se = FALSE)+
   NULL </code></pre>
-<p>Next we need to add a title. Create a new plot, or extend plot1, using
-the <code>labs()</code> function to add an informative title to the plot.</p>
 <pre class="r"><code>plot1 &lt;- plot1 +
   labs(title = &quot;Life Expectancy in Italy from 1952 to 2007&quot;,
       x = &quot;Year&quot;,
@@ -85,10 +69,6 @@ the <code>labs()</code> function to add an informative title to the plot.</p>
 plot1</code></pre>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
 <p><img src="/blogs/pre_course_files/figure-html/lifeExp_one_country_with_label-1.png" width="672" /></p>
-<p>Secondly, produce a plot for all countries in the <em>continent</em> you come
-from. (Hint: map the <code>country</code> variable to the colour aesthetic. You
-also want to map <code>country</code> to the <code>group</code> aesthetic, so all points for
-each country are grouped together).</p>
 <pre class="r"><code> ggplot(data = continent_data, mapping = aes(x =  year, y = lifeExp  , colour = country, group = country))+
   geom_point() + 
   geom_smooth(se = FALSE) +
@@ -96,10 +76,6 @@ each country are grouped together).</p>
   ggtitle(&quot;Life Expectancy in Europe from 1952 to 2007&quot;)</code></pre>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
 <p><img src="/blogs/pre_course_files/figure-html/lifeExp_one_continent-1.png" width="672" /></p>
-<p>Finally, using the original <code>gapminder</code> data, produce a life expectancy
-over time graph, grouped (or faceted) by continent. We will remove all
-legends, adding the <code>theme(legend.position="none")</code> in the end of our
-ggplot.</p>
 <pre class="r"><code>ggplot(data = gapminder , mapping = aes(x = year, y = lifeExp, colour= country))+
   geom_point() + 
   geom_smooth(se = FALSE) +
@@ -108,21 +84,12 @@ ggplot.</p>
   NULL</code></pre>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
 <p><img src="/blogs/pre_course_files/figure-html/lifeExp_facet_by_continent-1.png" width="672" /></p>
-<p>Given these trends, what can you say about life expectancy since 1952?
-Again, don’t just say what’s happening in the graph. Tell some sort of
-story and speculate about the differences in the patterns.</p>
-<blockquote>
-<p>Type your answer after this blockquote.</p>
-</blockquote>
 <p>With only minor exemptions (e.g. bump in Europe in the 80s, probably Baltic states), it is visible that life expectancy in the Americas, Europe and Oceania has increased fairly steadily. This data supports the common believe, that advancements in medicine and hygiene, stable nutrition supply, less wars and overall enhancements in quality of life have contributed to an increase in life expectancy.<br />
 </p>
 <p>In Asia and Africa, however, there is once again an overall trend to increasing life expectancy but fluctuations and exemptions are more common. Especially in some African countries we see a sharp decline in life expectancy starting from the 80s and 90s. It can be speculated that this is due to epidemics - especially HIV – but also due to civil wars or famines. The average life expectancy in Asia and Africa reached in 2007 is well below that of Europe and Oceania. The standard deviation is also higher, which leads to the conclusion that there are major difference among single countries.</p>
 </div>
 <div id="task-3-brexit-vote-analysis" class="section level1">
 <h1>Task 3: Brexit vote analysis</h1>
-<p>We will have a look at the results of the 2016 Brexit vote in the UK.
-First we read the data using <code>read_csv()</code> and have a quick glimpse at
-the data</p>
 <pre class="r"><code># read data directly off github repo
 brexit_results &lt;- read_csv(&quot;https://raw.githubusercontent.com/kostis-christodoulou/am01/master/data/brexit_results.csv&quot;)
 
@@ -141,17 +108,6 @@ glimpse(brexit_results)</code></pre>
 ## $ unemployed  &lt;dbl&gt; 3.637000, 4.553607, 3.039963, 4.261173, 2.468100, 4.742731…
 ## $ degree      &lt;dbl&gt; 13.870661, 9.974114, 28.600135, 9.336294, 18.775591, 6.085…
 ## $ age_18to24  &lt;dbl&gt; 9.406093, 7.325850, 6.437453, 7.747801, 5.734730, 8.209863…</code></pre>
-<p>The data comes from <a href="https://www.thecrosstab.com/">Elliott Morris</a>, who
-cleaned it and made it available through his <a href="https://www.datacamp.com/courses/analyzing-election-and-polling-data-in-r">DataCamp class on
-analysing election and polling data in
-R</a>.</p>
-<p>Our main outcome variable (or y) is <code>leave_share</code>, which is the percent
-of votes cast in favour of Brexit, or leaving the EU. Each row is a UK
-<a href="https://en.wikipedia.org/wiki/United_Kingdom_Parliament_constituencies">parliament
-constituency</a>.</p>
-<p>To get a sense of the spread, or distribution, of the data, we can plot
-a histogram, a density plot, and the empirical cumulative distribution
-function of the leave % in all constituencies.</p>
 <pre class="r"><code># histogram
 ggplot(brexit_results, aes(x = leave_share)) +
   geom_histogram(binwidth = 2.5) +
@@ -177,11 +133,6 @@ ggplot(brexit_results, aes(x = leave_share)) +
        x = &quot;leave %-share&quot;,
        y = &quot;Cumulated share of constituencies&quot;)</code></pre>
 <p><img src="/blogs/pre_course_files/figure-html/brexit_histogram-3.png" width="672" /></p>
-<p>One common explanation for the Brexit outcome was fear of immigration
-and opposition to the EU’s more open border policy. We can check the
-relationship (or correlation) between the proportion of native born
-residents (<code>born_in_uk</code>) in a constituency and its <code>leave_share</code>. To do
-this, let us get the correlation between the two variables</p>
 <pre class="r"><code>brexit_results %&gt;% 
   select(leave_share, born_in_uk) %&gt;% 
   cor()</code></pre>
@@ -190,9 +141,6 @@ this, let us get the correlation between the two variables</p>
 ## born_in_uk    0.4934295  1.0000000</code></pre>
 <p>The correlation is almost 0.5, which shows that the two variables are
 positively correlated.</p>
-<p>We can also create a scatterplot between these two variables using
-<code>geom_point</code>. We also add the best fit line, using
-<code>geom_smooth(method = "lm")</code>.</p>
 <pre class="r"><code>ggplot(brexit_results, aes(x = born_in_uk, y = leave_share)) +
   geom_point(alpha=0.3) +
   
@@ -210,34 +158,12 @@ positively correlated.</p>
   NULL</code></pre>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="/blogs/pre_course_files/figure-html/brexit_immigration_plot-1.png" width="672" /></p>
-<p>You have the code for the plots, I would like you to revisit all of them
-and use the <code>labs()</code> function to add an informative title, subtitle, and
-axes titles to all plots.</p>
-<p>What can you say about the relationship shown above? Again, don’t just
-say what’s happening in the graph. Tell some sort of story and speculate
-about the differences in the patterns.</p>
-<blockquote>
-<p>Type your answer after, and outside, this blockquote.</p>
-</blockquote>
 <p>The graph shows a correlation (0.5) between the % of native born residents within a constituency and its leave %-share. A large bulk of constituencies has a born_in_uk rate of 90% and above whereby the average of leave %-share among this majority-group seems to lie around 55%. In constituencies where the % of native born residents is below 80% on the other hand, the average submitted votes would have kept the UK within the EU. These findings support the statement that patriotic, UK born citizens are more likely to oppose the EU and its regulations (among which looser immigration policies).<br />
 </p>
 <p>However, a significant standard deviation can be observed across all %-shares of native borne uk residents. In other words, this means that two constituencies with a similiar 80% “native share” have voted in favor of Brexit with 70% as well as 20%. Thus, it is suggested not to regard native born % and fear of immigration as only explanation for the Brexit outcome.</p>
 </div>
 <div id="task-4-animal-rescue-incidents-attended-by-the-london-fire-brigade" class="section level1">
 <h1>Task 4: Animal rescue incidents attended by the London Fire Brigade</h1>
-<p><a href="https://data.london.gov.uk/dataset/animal-rescue-incidents-attended-by-lfb">The London Fire
-Brigade</a>
-attends a range of non-fire incidents (which we call ‘special
-services’). These ‘special services’ include assistance to animals that
-may be trapped or in distress. The data is provided from January 2009
-and is updated monthly. A range of information is supplied for each
-incident including some location information (postcode, borough, ward),
-as well as the data/time of the incidents. We do not routinely record
-data about animal deaths or injuries.</p>
-<p>Please note that any cost included is a notional cost calculated based
-on the length of time rounded up to the nearest hour spent by Pump,
-Aerial and FRU appliances at the incident and charged at the current
-Brigade hourly rate.</p>
 <pre class="r"><code>url &lt;- &quot;https://data.london.gov.uk/download/animal-rescue-incidents-attended-by-lfb/f43b485e-fb35-419c-aa7a-fa75676e5835/Animal%20Rescue%20incidents%20attended%20by%20LFB%20from%20Jan%202009.csv&quot;
 
 
@@ -280,11 +206,6 @@ glimpse(animal_rescue)</code></pre>
 ## $ northing_rounded              &lt;dbl&gt; 170050, 167550, 164950, 190650, 192350, …
 ## $ latitude                      &lt;chr&gt; &quot;NULL&quot;, &quot;51.39095371&quot;, &quot;51.36894086&quot;, &quot;5…
 ## $ longitude                     &lt;chr&gt; &quot;NULL&quot;, &quot;-0.064166887&quot;, &quot;-0.161985191&quot;, …</code></pre>
-<p>One of the more useful things one can do with any data set is quick
-counts, namely to see how many observations fall within one category.
-For instance, if we wanted to count the number of incidents by year, we
-would either use <code>group_by()... summarise()</code> or, simply
-<a href="https://dplyr.tidyverse.org/reference/count.html"><code>count()</code></a></p>
 <pre class="r"><code>animal_rescue %&gt;% 
   dplyr::group_by(cal_year) %&gt;% 
   summarise(count=n())</code></pre>
@@ -324,8 +245,6 @@ would either use <code>group_by()... summarise()</code> or, simply
 ## 12     2020   758
 ## 13     2021   885
 ## 14     2022   641</code></pre>
-<p>Let us try to see how many incidents we have by animal group. Again, we
-can do this either using group_by() and summarise(), or by using count()</p>
 <pre class="r"><code>animal_rescue %&gt;% 
   group_by(animal_group_parent) %&gt;% 
   
@@ -373,26 +292,6 @@ can do this either using group_by() and summarise(), or by using count()</p>
 ##  9 Squirrel                            75    0.86
 ## 10 Unknown - Heavy Livestock Animal    50    0.57
 ## # … with 18 more rows</code></pre>
-<p>Do you see anything strange in these tables?<br />
-</p>
-<p>Cat/cat appears two times, some animals have not been categorized, top 5 categories combined over 90% of incidents.</p>
-<p>Finally, let us have a loot at the notional cost for rescuing each of
-these animals. As the LFB says,</p>
-<blockquote>
-<p>Please note that any cost included is a notional cost calculated based
-on the length of time rounded up to the nearest hour spent by Pump,
-Aerial and FRU appliances at the incident and charged at the current
-Brigade hourly rate.</p>
-</blockquote>
-<p>There is two things we will do:</p>
-<ol style="list-style-type: decimal">
-<li>Calculate the mean and median <code>incident_notional_cost</code> for each
-<code>animal_group_parent</code></li>
-<li>Plot a boxplot to get a feel for the distribution of
-<code>incident_notional_cost</code> by <code>animal_group_parent</code>.</li>
-</ol>
-<p>Before we go on, however, we need to fix <code>incident_notional_cost</code> as it
-is stored as a <code>chr</code>, or character, rather than a number.</p>
 <pre class="r"><code># what type is variable incident_notional_cost from dataframe `animal_rescue`
 typeof(animal_rescue$incident_notional_cost)</code></pre>
 <pre><code>## [1] &quot;character&quot;</code></pre>
@@ -405,8 +304,6 @@ animal_rescue &lt;- animal_rescue %&gt;%
 # incident_notional_cost from dataframe `animal_rescue` is now &#39;double&#39; or numeric
 typeof(animal_rescue$incident_notional_cost)</code></pre>
 <pre><code>## [1] &quot;double&quot;</code></pre>
-<p>Now that incident_notional_cost is numeric, let us quickly calculate
-summary statistics for each animal group.</p>
 <pre class="r"><code>animal_rescue %&gt;% 
   
   # group by animal_group_parent
@@ -448,15 +345,7 @@ summary statistics for each animal group.</p>
 ## 17 Ferret                             314.    336     41.1     260     364    10
 ## # … with abbreviated variable names ¹​mean_incident_cost, ²​median_incident_cost,
 ## #   ³​sd_incident_cost, ⁴​min_incident_cost, ⁵​max_incident_cost</code></pre>
-<p>Compare the mean and the median for each animal group. waht do you think
-this is telling us? Anything else that stands out? Any outliers?<br />
-</p>
-<blockquote>
-<p>Response</p>
-</blockquote>
 <p>Median usually lower, this lets us conclude that we have outliers on the top end of the cost range (single animals very difficult to rescue).</p>
-<p>Finally, let us plot a few plots that show the distribution of
-incident_cost for each animal group.</p>
 <pre class="r"><code># base_plot
 base_plot &lt;- animal_rescue %&gt;% 
   group_by(animal_group_parent) %&gt;% 
@@ -474,30 +363,7 @@ base_plot + geom_histogram()</code></pre>
 <pre class="r"><code>base_plot + stat_ecdf(geom = &quot;step&quot;, pad = FALSE) +
   scale_y_continuous(labels = scales::percent)</code></pre>
 <p><img src="/blogs/pre_course_files/figure-html/plots_on_incident_cost_by_animal_group-4.png" width="672" /></p>
-<p>Which of these four graphs do you think best communicates the
-variability of the <code>incident_notional_cost</code> values? Also, can you please
-tell some sort of story (which animals are more expensive to rescue than
-others, the spread of values) and speculate about the differences in the
-patterns.<br />
-</p>
-<blockquote>
-<p>Response</p>
-</blockquote>
 <p>Variability is best shown in the boxplot graph as single outliers get lost in the other graphs due to the significant number of observations. 
 As expected, large animals such as horses, cows, and deer are on average the most expensive to rescue. It is speculated that it takes more working-hours and machinery to recover heavier animals. While the minimal cost is similiar across the categories, the maximum cost seams to have some positive correlation with animal size. 
 Correspondingly, the sd is significant in these categories, with the maximum value as high as 10x the median rescue cost. Animals such as Rabbits and Ferrets have the least outliers, a fact that could lead to the conclusion that the rescue effort for these animals is fairly predictable.</p>
-</div>
-<div id="submit-the-assignment" class="section level1">
-<h1>Submit the assignment</h1>
-<p>Knit the completed R Markdown file as an HTML document (use the “Knit”
-button at the top of the script editor window) and upload it to Canvas.</p>
-<div id="details" class="section level2">
-<h2>Details</h2>
-<p>If you want to, please answer the following</p>
-<ul>
-<li>Who did you collaborate with: <em>none</em></li>
-<li>Approximately how much time did you spend on this problem set: <em>~ 2h</em></li>
-<li>What, if anything, gave you the most trouble: <em>write a meaningful explanation of the graphs (e.g. deciding which patterns are relevant and should thus be highlighted)</em></li>
-</ul>
-</div>
 </div>

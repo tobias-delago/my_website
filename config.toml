@@ -110,19 +110,19 @@ disqusShortname = ""
       url = "blogs/pre_course"
 
     [[params.tiles.showcase]]
-      title = "First Group Workshop"
+      title = "Bay Area Rental Prices"
       subtitle = "Replicating Graphs, Descriptive Statistics"
       image = "team1.jpg"
       url = "blogs/homework1"
       
     [[params.tiles.showcase]]
-      title = "Second Group Workshop"
+      title = "Climate Change and Approval Ratings"
       subtitle = "Replicating more complex Graphs, Confidence Intervals"
       image = "team2.jpg"
       url = "blogs/homework2"
       
     [[params.tiles.showcase]]
-      title = "Third and last Group Workshop"
+      title = "Gender Pay Gap"
       subtitle = "Hypothesis Testing"
       image = "team3.jpg"
       url = "blogs/homework3"
@@ -142,7 +142,7 @@ disqusShortname = ""
     enable = true
     title = "Fun Fact"
     subtitle = """16% of 25 is equal to 25% of 16, but one is easier to calculate than the other"""
-    buttonText = "Explore all Blogs for more interesting data facts"
+    buttonText = "Explore more data facts"
     url = "blogs"
 
 
@@ -185,7 +185,7 @@ disqusShortname = ""
   # Footer section
   [params.footer]
     enable = true
-    copyright = "Tobias Delago | Pictures by Darkest & Carrion"
+    copyright = "Tobias Delago | Pictures by Darkest, Carrion & Pexels"
 
     # Uses font awesome icons
     #[[params.footer.social]]
